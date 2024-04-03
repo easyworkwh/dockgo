@@ -1,0 +1,27 @@
+# 表示依赖 alpine 最新版
+FROM alpine:latest
+
+# 在容器根目录 创建一个 apps 目录
+WORKDIR /apps
+
+RUN mkdir /apps/conf
+
+# 拷贝二进制程序和配置文件到指定目录下
+COPY output/gosdocker /apps/gosdocker
+COPY output/conf/config.toml /apps/conf/config.toml
+
+# 具备执行权限
+RUN chmod +x /apps/gosdocker
+
+# 设置时区为上海
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' >/etc/timezone
+
+# 设置编码
+ENV LANG C.UTF-8
+
+# 暴露端口
+EXPOSE 8089
+
+# 运行golang程序的命令
+ENTRYPOINT ["/apps/gosdocker"]

@@ -1,0 +1,3 @@
+appName = "GoDocker Demo"
+port = 8089
+description = "This is a sample!"
